@@ -1,4 +1,5 @@
 const DEVICE_PLAYBOOKS = [
+const DEVICE_PLAYBOOKS = [
   {
     id: 'iot-setup',
     aliases: ['iot', 'sensor', 'smart home', 'iot setup', 'industrial iot', '環控'],
@@ -10,6 +11,18 @@ const DEVICE_PLAYBOOKS = [
     journey: ['Operations pulse home screen', 'Incident triage panel', 'Automation recipe builder'],
     securityWatchpoints: ['Mutual TLS device onboarding', 'Continuous firmware integrity scanning'],
     qaFocus: ['Edge-to-cloud latency benchmarks', 'Failover scenario drills', 'Automation rule regression pack']
+  },
+  {
+    id: 'esp32-edge-node',
+    aliases: ['esp32', 'esp-32', 'edge microcontroller', 'micropython node', 'embedded controller'],
+    title: 'ESP32 Edge Insight Node',
+    summary: 'Turn ESP32 hardware into intelligent edge endpoints with fleet awareness.',
+    aiModules: ['Edge vision classifier', 'Adaptive sensor fusion', 'Fleet health telematics'],
+    blueOcean: 'Provide maintenance teams with retrofit AI for brownfield sites without cloud lock-in.',
+    integrationLayers: ['MicroPython skill pack', 'Model update scheduler', 'Fleet telemetry bridge'],
+    journey: ['Provisioning checklist', 'Live edge insights console', 'OTA rollback centre'],
+    securityWatchpoints: ['Secure boot enforcement', 'Signed model bundle validation'],
+    qaFocus: ['Power draw regression bench', 'Offline failover drills', 'Firmware upgrade canary tests']
   },
   {
     id: 'modular-hub',
@@ -70,6 +83,40 @@ const DEVICE_PLAYBOOKS = [
     journey: ['Recording timeline', 'Insight storyboard', 'Follow-up request queue'],
     securityWatchpoints: ['Secure offline vault', 'Role-based sharing controls'],
     qaFocus: ['Battery impact measurement', 'Offline/online sync validation', 'Speaker accuracy sampling']
+    id: 'cinematic-overlay',
+    aliases: ['television', 'tv', 'traditional television', 'broadcast', '電視'],
+    title: 'Cinematic Companion Overlay',
+    summary: 'Add shoppable, accessible, and social layers to broadcast-era televisions.',
+    aiModules: ['Scene understanding overlay', 'Voice-activated concierge', 'Co-viewer synchronisation'],
+    blueOcean: 'Target hospitality and elder-care markets that need accessible co-watching experiences.',
+    integrationLayers: ['Video frame annotator', 'Voice command gateway', 'Second-screen sync service'],
+    journey: ['Adaptive overlay controls', 'Companion device handoff', 'Viewing journal'],
+    securityWatchpoints: ['Content rights watermarking', 'Household profile isolation'],
+    qaFocus: ['Closed-caption accuracy review', 'Second-screen latency tests', 'Accessibility audit sweeps']
+  },
+  {
+    id: 'heritage-radio',
+    aliases: ['radio', 'am radio', 'fm radio', '收音機'],
+    title: 'Heritage Radio Narrator',
+    summary: 'Modernise analogue radios with AI translation, summarisation, and archiving.',
+    aiModules: ['Live transcription and translation', 'Segment summariser', 'Personal audio archivist'],
+    blueOcean: 'Serve community broadcasters seeking digital reach without replacing heritage equipment.',
+    integrationLayers: ['Signal digitiser', 'Language intelligence service', 'Memory vault API'],
+    journey: ['Real-time transcript ticker', 'Highlights digest', 'Archive explorer'],
+    securityWatchpoints: ['Tamper-evident archive logs', 'Listener privacy controls'],
+    qaFocus: ['Transcription accuracy scoring', 'Archive retrieval validation', 'Offline resilience drills']
+  },
+  {
+    id: 'insight-recorder',
+    aliases: ['recorder', 'voice recorder', 'recording pen', 'dictaphone', '錄音筆'],
+    title: 'Insight Recorder Studio',
+    summary: 'Turn pocket recorders into proactive note-taking and coaching assistants.',
+    aiModules: ['Speaker diarisation coach', 'Action item extractor', 'Contextual memory recall'],
+    blueOcean: 'Appeal to field researchers requiring offline-first knowledge capture with AI follow-ups.',
+    integrationLayers: ['Audio ingestion agent', 'Insight synthesis engine', 'Cross-device sync core'],
+    journey: ['Recording timeline', 'Insight storyboard', 'Follow-up request queue'],
+    securityWatchpoints: ['Secure offline vault', 'Role-based sharing controls'],
+    qaFocus: ['Battery impact measurement', 'Offline/online sync validation', 'Speaker accuracy sampling']
   },
   {
     id: 'retro-console',
@@ -82,6 +129,18 @@ const DEVICE_PLAYBOOKS = [
     journey: ['Quest selection overlay', 'Creator studio', 'Community leaderboard'],
     securityWatchpoints: ['Signed mod packages', 'Community content moderation'],
     qaFocus: ['Latency on original hardware', 'Compatibility regression per game', 'Moderation workflow rehearsal']
+  },
+  {
+    id: 'vision-custodian',
+    aliases: ['camera', 'security camera', 'smart cam', 'cam', '監視器'],
+    title: 'Vision Custodian Cam',
+    summary: 'Upgrade cameras with on-device analytics, incident storytelling, and privacy controls.',
+    aiModules: ['Edge incident detection', 'Context-rich clip tagging', 'Privacy-preserving redaction'],
+    blueOcean: 'Serve property managers needing AI assurance without constant cloud streaming.',
+    integrationLayers: ['Edge inference runtime', 'Event timeline index', 'Escalation webhook relay'],
+    journey: ['Camera health board', 'Incident storytelling feed', 'Privacy control studio'],
+    securityWatchpoints: ['Zero trust stream access', 'Event retention governance'],
+    qaFocus: ['Low-light inference suite', 'Network disruption recovery', 'Privacy redaction accuracy']
   },
   {
     id: 'climate-fan',
@@ -259,6 +318,8 @@ export function craftPlanForDevice(device, attachments = []) {
 
   const playbook = findPlaybook(device);
   const preparedAttachments = prepareAttachments(attachments);
+  const agents = craftAgentOutputs(playbook, preparedAttachments);
+  const roadmap = agents.productManager.deliveryBacklog.map((item) => item.milestone);
 
   return {
     id: playbook.id,
@@ -268,6 +329,11 @@ export function craftPlanForDevice(device, attachments = []) {
       preparedAttachments.length ? ` Attachments add ${preparedAttachments.join(', ')}.` : ''
     }`,
     attachments: preparedAttachments,
-    agents: craftAgentOutputs(playbook, preparedAttachments)
+    integrationLayers: [...agents.softwareArchitect.integrationLayers],
+    experienceFlow: [...agents.uiUx.journeyStages],
+    securityWatchpoints: [...agents.security.threatModel.watchpoints],
+    qaFocus: [...agents.qualityAssurance.testPlan],
+    implementationRoadmap: roadmap,
+    agents
   };
 }

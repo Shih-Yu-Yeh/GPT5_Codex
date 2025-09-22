@@ -24,9 +24,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .hero__cta {
+  align-self: center;
   align-self: center;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
@@ -35,6 +39,7 @@ body {
   color: #0f172a;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
   text-decoration: none;
 }
 
@@ -51,8 +56,14 @@ main {
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
+.playbooks,
+.planner {
+  max-width: 1100px;
 .playbooks,
 .planner {
   max-width: 1100px;
@@ -60,8 +71,19 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+.playbooks__header,
+.planner__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.playbooks__grid {
 .playbooks__header,
 .planner__header {
   display: flex;
@@ -76,6 +98,7 @@ main {
 }
 
 .playbook-card {
+.playbook-card {
   background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 16px;
@@ -85,6 +108,34 @@ main {
   gap: 0.75rem;
 }
 
+.playbook-card__modules {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #cbd5f5;
+}
+
+.playbook-card__blue-ocean {
+  color: #f472b6;
+  font-weight: 500;
+}
+
+.planner__form {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.planner__form label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.planner__form input {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
 .playbook-card__modules {
   list-style: disc;
   padding-left: 1.25rem;
@@ -151,8 +202,14 @@ main {
 
 .plan-card__modules,
 .plan-card__attachments,
-.plan-card__details {
+.plan-card__list {
   list-style: disc;
+  padding-left: 1.25rem;
+  color: #cbd5f5;
+}
+
+.plan-card__roadmap {
+  list-style: decimal;
   padding-left: 1.25rem;
   color: #cbd5f5;
 }
@@ -191,8 +248,7 @@ main {
     gap: 2.5rem;
   }
 
-  .playbooks__grid,
-  .plan-card__agents {
+  .playbooks__grid {
     grid-template-columns: 1fr;
   }
 

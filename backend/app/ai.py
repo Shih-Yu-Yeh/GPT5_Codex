@@ -1,7 +1,9 @@
 """Hardware-centric AI orchestration helpers used by the backend service."""
+"""Hardware-centric AI orchestration helpers used by the backend service."""
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from dataclasses import dataclass, field
 from hashlib import sha256
 from typing import Dict, Iterable, List, Sequence
@@ -16,7 +18,7 @@ class Blueprint:
     device_label: str
     summary: str
     ai_modules: Sequence[str]
-    blue_ocean: str
+    blue_ocean: Sequence[str]
     integration_layers: Sequence[str]
     experience_flow: Sequence[str]
     security_watchpoints: Sequence[str]
@@ -55,6 +57,45 @@ BLUEPRINTS: Sequence[Blueprint] = (
             "Edge-to-cloud latency benchmarks",
             "Failover scenario drills",
             "Automation rule regression pack",
+        ),
+    ),
+    Blueprint(
+        key="esp32-edge-node",
+        aliases=(
+            "esp32",
+            "esp-32",
+            "edge microcontroller",
+            "micropython node",
+            "embedded controller",
+        ),
+        device_label="ESP32 Edge Insight Node",
+        summary="Turns ESP32 hardware into an intelligent edge endpoint with fleet awareness.",
+        ai_modules=(
+            "Edge vision classifier",
+            "Adaptive sensor fusion",
+            "Fleet health telematics",
+        ),
+        blue_ocean=(
+            "Provide maintenance teams with retrofit AI for brownfield sites without cloud lock-in.",
+        ),
+        integration_layers=(
+            "MicroPython skill pack",
+            "Model update scheduler",
+            "Fleet telemetry bridge",
+        ),
+        experience_flow=(
+            "Provisioning checklist",
+            "Live edge insights console",
+            "OTA rollback centre",
+        ),
+        security_watchpoints=(
+            "Secure boot enforcement",
+            "Signed model bundle validation",
+        ),
+        qa_focus=(
+            "Power draw regression bench",
+            "Offline failover drills",
+            "Firmware upgrade canary tests",
         ),
     ),
     Blueprint(
@@ -256,6 +297,39 @@ BLUEPRINTS: Sequence[Blueprint] = (
         ),
     ),
     Blueprint(
+        key="vision-custodian",
+        aliases=("camera", "security camera", "smart cam", "cam", "監視器"),
+        device_label="Vision Custodian Cam",
+        summary="Upgrades cameras with on-device analytics, incident storytelling, and privacy controls.",
+        ai_modules=(
+            "Edge incident detection",
+            "Context-rich clip tagging",
+            "Privacy-preserving redaction",
+        ),
+        blue_ocean=(
+            "Serve property managers needing AI assurance without constant cloud streaming.",
+        ),
+        integration_layers=(
+            "Edge inference runtime",
+            "Event timeline index",
+            "Escalation webhook relay",
+        ),
+        experience_flow=(
+            "Camera health board",
+            "Incident storytelling feed",
+            "Privacy control studio",
+        ),
+        security_watchpoints=(
+            "Zero trust stream access",
+            "Event retention governance",
+        ),
+        qa_focus=(
+            "Low-light inference suite",
+            "Network disruption recovery",
+            "Privacy redaction accuracy",
+        ),
+    ),
+    Blueprint(
         key="climate-fan",
         aliases=("fan", "mechanical fan", "electric fan", "風扇"),
         device_label="Climate Rhythm Conductor",
@@ -362,21 +436,23 @@ class AgentOutputs:
     """Container for the orchestrated agent contributions."""
 
     business_analyst: Dict[str, object]
-    product_manager: Dict[str, object]
     software_architect: Dict[str, object]
     ui_ux: Dict[str, object]
     security: Dict[str, object]
     quality_assurance: Dict[str, object]
+    product_manager: Dict[str, object] | None = None
 
     def as_payload(self) -> Dict[str, Dict[str, object]]:
-        return {
+        payload = {
             "businessAnalyst": self.business_analyst,
-            "productManager": self.product_manager,
             "softwareArchitect": self.software_architect,
             "uiUx": self.ui_ux,
             "security": self.security,
             "qualityAssurance": self.quality_assurance,
         }
+        if self.product_manager is not None:
+            payload["productManager"] = self.product_manager
+        return payload
 
 
 @dataclass
@@ -388,6 +464,11 @@ class HardwarePlan:
     ai_modules: Sequence[str]
     differentiator: str
     attachments: Sequence[str] = field(default_factory=list)
+    integration_layers: Sequence[str] = field(default_factory=tuple)
+    experience_flow: Sequence[str] = field(default_factory=tuple)
+    security_watchpoints: Sequence[str] = field(default_factory=tuple)
+    qa_focus: Sequence[str] = field(default_factory=tuple)
+    implementation_roadmap: Sequence[str] = field(default_factory=tuple)
     agents: AgentOutputs | None = None
 
     def as_payload(self) -> Dict[str, object]:
@@ -397,6 +478,11 @@ class HardwarePlan:
             "aiModules": list(self.ai_modules),
             "differentiator": self.differentiator,
             "attachments": list(self.attachments),
+            "integrationLayers": list(self.integration_layers),
+            "experienceFlow": list(self.experience_flow),
+            "securityWatchpoints": list(self.security_watchpoints),
+            "qaFocus": list(self.qa_focus),
+            "implementationRoadmap": list(self.implementation_roadmap),
         }
         if self.agents:
             payload["agents"] = self.agents.as_payload()
@@ -500,9 +586,73 @@ class QualityAssuranceAgent:
             "uiUxFocus": ui_ux["journeyStages"],
             "backendFocus": architecture["integrationLayers"],
             "escalation": "Report defects to the PM who will coordinate frontend and backend fixes.",
+            "testPlan": validation_gates,
+            "uiUxFocus": ui_ux["journeyStages"],
+            "backendFocus": architecture["integrationLayers"],
+            "escalation": "Report defects to the PM who will coordinate frontend and backend fixes.",
         }
 
 
+class ProductManagerAgent:
+    """Aligns agent output into an actionable delivery plan."""
+
+    def orchestrate(
+        self,
+        blueprint: Blueprint,
+        attachments: Sequence[str],
+        agent_outputs: Dict[str, Dict[str, object]],
+    ) -> Dict[str, object]:
+        backlog = [
+            {
+                "milestone": "Validate blue ocean thesis with stakeholder interviews",
+                "owner": "Business Analyst",
+            },
+            {
+                "milestone": "Prototype journey stages with UI/UX using RWD guidelines",
+                "owner": "Frontend",
+            },
+            {
+                "milestone": "Implement integration layers with backend and architect",
+                "owner": "Backend",
+            },
+            {
+                "milestone": "Run QA regression and security threat rehearsal",
+                "owner": "QA & Security",
+            },
+        ]
+        if attachments:
+            backlog.append(
+                {
+                    "milestone": "Expand backlog for attachment orchestration",
+                    "owner": "PM",
+                }
+            )
+
+        dependencies = [
+            "Architecture informs security hardening",
+            "UI/UX prototypes feed QA accessibility audits",
+        ]
+
+        return {
+            "deliveryBacklog": backlog,
+            "dependencies": dependencies,
+            "nextReview": "Schedule cross-agent sync once QA shares findings.",
+        }
+
+
+class HardwarePlanGenerator:
+    """Create deterministic hardware augmentation plans derived from device seeds."""
+
+    def __init__(self) -> None:
+        self._business_analyst = BusinessAnalystAgent()
+        self._product_manager = ProductManagerAgent()
+        self._architect = SoftwareArchitectAgent()
+        self._ui_ux = UIUXAgent()
+        self._security = SecurityEngineerAgent()
+        self._qa = QualityAssuranceAgent()
+
+    def _normalise(self, value: str) -> str:
+        return " ".join(value.strip().lower().split())
 class ProductManagerAgent:
     """Aligns agent output into an actionable delivery plan."""
 
@@ -624,14 +774,19 @@ class HardwarePlanGenerator:
             ui_ux=ui_ux,
             security=security,
             quality_assurance=qa,
-            product_manager={},  # placeholder until orchestrated below
         )
         product_manager = self._product_manager.orchestrate(
             blueprint,
             prepared_attachments,
             agent_outputs.as_payload(),
         )
-        agent_outputs.product_manager = product_manager  # type: ignore[misc]
+        agent_outputs.product_manager = product_manager
+
+        roadmap_steps = [
+            item.get("milestone", "")
+            for item in product_manager.get("deliveryBacklog", [])
+            if isinstance(item, dict) and item.get("milestone")
+        ]
 
         plan = HardwarePlan(
             device_key=blueprint.key,
@@ -639,6 +794,11 @@ class HardwarePlanGenerator:
             ai_modules=blueprint.ai_modules,
             differentiator=self._craft_differentiator(blueprint, prepared_attachments),
             attachments=prepared_attachments,
+            integration_layers=architect["integrationLayers"],
+            experience_flow=ui_ux["journeyStages"],
+            security_watchpoints=security["threatModel"]["watchpoints"],
+            qa_focus=qa["testPlan"],
+            implementation_roadmap=roadmap_steps,
             agents=agent_outputs,
         )
         return plan
@@ -649,5 +809,7 @@ def generate_device_strategy(
 ) -> Dict[str, object]:
     """Public helper that returns a JSON-serialisable plan."""
 
+    plan = HardwarePlanGenerator().generate(device=device, attachments=attachments)
+    return plan.as_payload()
     plan = HardwarePlanGenerator().generate(device=device, attachments=attachments)
     return plan.as_payload()

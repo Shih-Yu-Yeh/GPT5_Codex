@@ -580,15 +580,17 @@ class HardwarePlanGenerator:
         if not isinstance(attachments, Iterable) or isinstance(attachments, (str, bytes)):
             raise TypeError("Attachments must be an iterable of strings")
 
-        cleaned: List[str] = []
+        deduped: Dict[str, str] = {}
         for attachment in attachments:
             if not isinstance(attachment, str):
                 raise TypeError("Attachments must be an iterable of strings")
-            normalised = " ".join(attachment.strip().split())
-            if normalised:
-                cleaned.append(normalised)
+            original = " ".join(attachment.strip().split())
+            if not original:
+                continue
+            key = self._normalise(original)
+            deduped.setdefault(key, original)
 
-        unique_sorted = sorted(dict.fromkeys(cleaned), key=str.lower)
+        unique_sorted = [deduped[key] for key in sorted(deduped, key=str)]
         return unique_sorted
 
     def _craft_differentiator(

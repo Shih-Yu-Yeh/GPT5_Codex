@@ -151,6 +151,7 @@ main {
 
 .plan-card__modules,
 .plan-card__attachments,
+codex/implement-ai-functionality-for-various-devices-wq5il3
 .plan-card__list {
   list-style: disc;
   padding-left: 1.25rem;
@@ -160,7 +161,28 @@ main {
 .plan-card__roadmap {
   list-style: decimal;
   padding-left: 1.25rem;
+
+.plan-card__details {
+  list-style: disc;
+  padding-left: 1.25rem;
+main
   color: #cbd5f5;
+}
+
+.plan-card__agents {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.plan-card__agent {
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 14px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .footer {
@@ -181,7 +203,12 @@ main {
     gap: 2.5rem;
   }
 
+codex/implement-ai-functionality-for-various-devices-wq5il3
   .playbooks__grid {
+
+  .playbooks__grid,
+  .plan-card__agents {
+ main
     grid-template-columns: 1fr;
   }
 

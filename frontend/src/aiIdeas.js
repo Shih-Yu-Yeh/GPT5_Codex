@@ -12,6 +12,7 @@ const DEVICE_PLAYBOOKS = [
     qaFocus: ['Edge-to-cloud latency benchmarks', 'Failover scenario drills', 'Automation rule regression pack']
   },
   {
+codex/implement-ai-functionality-for-various-devices-wq5il3
     id: 'esp32-edge-node',
     aliases: ['esp32', 'esp-32', 'edge microcontroller', 'micropython node', 'embedded controller'],
     title: 'ESP32 Edge Insight Node',
@@ -36,6 +37,20 @@ const DEVICE_PLAYBOOKS = [
     qaFocus: ['Protocol emulation harness', 'Routine conflict resolution tests', 'Mobile and voice parity checks']
   },
   {
+=======
+    id: 'modular-hub',
+    aliases: ['hub', 'smart hub', 'home hub', '控制中心'],
+    title: 'Modular Hub Orchestrator',
+    summary: 'Elevate multi-protocol hubs into intent-driven household coordinators.',
+    aiModules: ['Intent routing assistant', 'Routine generation engine', 'Household persona profiles'],
+    blueOcean: 'Enable service providers to sell persona-aware automations with premium installation packages.',
+    integrationLayers: ['Signal normalisation layer', 'Scene automation service', 'Insight timeline store'],
+    journey: ['Household timeline overview', 'Routine composer', 'Agent negotiation log'],
+    securityWatchpoints: ['Role-based access bridging', 'Signed automation exchange'],
+    qaFocus: ['Protocol emulation harness', 'Routine conflict resolution tests', 'Mobile and voice parity checks']
+  },
+  {
+    main
     id: 'adaptive-router',
     aliases: ['router', 'wi-fi', 'wifi', 'network', '路由器'],
     title: 'Adaptive Network Guardian',
@@ -96,6 +111,7 @@ const DEVICE_PLAYBOOKS = [
     qaFocus: ['Latency on original hardware', 'Compatibility regression per game', 'Moderation workflow rehearsal']
   },
   {
+    codex/implement-ai-functionality-for-various-devices-wq5il3
     id: 'vision-custodian',
     aliases: ['camera', 'security camera', 'smart cam', 'cam', '監視器'],
     title: 'Vision Custodian Cam',
@@ -108,6 +124,8 @@ const DEVICE_PLAYBOOKS = [
     qaFocus: ['Low-light inference suite', 'Network disruption recovery', 'Privacy redaction accuracy']
   },
   {
+
+    main
     id: 'climate-fan',
     aliases: ['fan', 'mechanical fan', 'electric fan', '風扇'],
     title: 'Climate Rhythm Conductor',
@@ -276,8 +294,11 @@ export function craftPlanForDevice(device, attachments = []) {
 
   const playbook = findPlaybook(device);
   const preparedAttachments = prepareAttachments(attachments);
+codex/implement-ai-functionality-for-various-devices-wq5il3
   const agents = craftAgentOutputs(playbook, preparedAttachments);
   const roadmap = agents.productManager.deliveryBacklog.map((item) => item.milestone);
+
+ main
 
   return {
     id: playbook.id,
@@ -287,11 +308,15 @@ export function craftPlanForDevice(device, attachments = []) {
       preparedAttachments.length ? ` Attachments add ${preparedAttachments.join(', ')}.` : ''
     }`,
     attachments: preparedAttachments,
+ codex/implement-ai-functionality-for-various-devices-wq5il3
     integrationLayers: [...agents.softwareArchitect.integrationLayers],
     experienceFlow: [...agents.uiUx.journeyStages],
     securityWatchpoints: [...agents.security.threatModel.watchpoints],
     qaFocus: [...agents.qualityAssurance.testPlan],
     implementationRoadmap: roadmap,
     agents
+
+    agents: craftAgentOutputs(playbook, preparedAttachments)
+ main
   };
 }

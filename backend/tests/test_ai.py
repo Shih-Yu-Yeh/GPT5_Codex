@@ -12,6 +12,7 @@ from backend.app.ai import HardwarePlanGenerator, generate_device_strategy
 
 
 class HardwarePlanGeneratorTests(unittest.TestCase):
+ codex/implement-ai-functionality-for-various-devices-wq5il3
     def test_generate_device_strategy_includes_user_focused_sections(self) -> None:
         payload = generate_device_strategy(
             "ESP32",
@@ -25,6 +26,18 @@ class HardwarePlanGeneratorTests(unittest.TestCase):
         self.assertIn("agents", payload)
         self.assertIn("businessAnalyst", payload["agents"])
 
+    def test_generate_device_strategy_returns_agent_block(self) -> None:
+        payload = generate_device_strategy(
+            "Retro Gameboy",
+            attachments=["Cartridge Digitiser", "Bluetooth Link"],
+        )
+        self.assertIn("agents", payload)
+        self.assertIn("businessAnalyst", payload["agents"])
+        self.assertIn("blueOceanOpportunity", payload["agents"]["businessAnalyst"])
+        self.assertIn("attachments", payload)
+        self.assertEqual(len(payload["attachments"]), 2)
+        main
+
     def test_generator_is_deterministic_for_same_input(self) -> None:
         generator = HardwarePlanGenerator()
         first = generator.generate("IoT Setup", attachments=["Thermal sensor"])
@@ -37,11 +50,14 @@ class HardwarePlanGeneratorTests(unittest.TestCase):
         plan = generator.generate("電鍋")
         self.assertEqual(plan.device_key, "culinary-companion")
 
+        codex/implement-ai-functionality-for-various-devices-wq5il3
     def test_generator_understands_camera_alias(self) -> None:
         generator = HardwarePlanGenerator()
         plan = generator.generate("Security Cam")
         self.assertEqual(plan.device_key, "vision-custodian")
 
+
+        main
     def test_generator_rejects_invalid_attachments(self) -> None:
         generator = HardwarePlanGenerator()
         with self.assertRaises(TypeError):

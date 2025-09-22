@@ -78,6 +78,7 @@ function renderPlan(container, plan) {
   const differentiator = document.createElement('p');
   differentiator.textContent = plan.differentiator;
 
+ codex/implement-ai-functionality-for-various-devices-wq5il3
   const modulesSection = createListSection('Core AI Modules', plan.aiModules, 'plan-card__modules');
 
   const attachmentsSection =
@@ -142,4 +143,103 @@ function createListSection(titleText, items, listClassName, listTag = 'ul') {
   }
 
   return { title, list };
+
+  const modulesTitle = document.createElement('h4');
+  modulesTitle.textContent = 'Core AI Modules';
+
+  const modulesList = document.createElement('ul');
+  modulesList.className = 'plan-card__modules';
+  for (const module of plan.aiModules) {
+    const item = document.createElement('li');
+    item.textContent = module;
+    modulesList.appendChild(item);
+  }
+
+  if (plan.attachments.length > 0) {
+    const attachmentsTitle = document.createElement('h4');
+    attachmentsTitle.textContent = 'Attachment Enhancements';
+    const attachmentsList = document.createElement('ul');
+    attachmentsList.className = 'plan-card__attachments';
+    for (const attachment of plan.attachments) {
+      const item = document.createElement('li');
+      item.textContent = attachment;
+      attachmentsList.appendChild(item);
+    }
+    article.appendChild(attachmentsTitle);
+    article.appendChild(attachmentsList);
+  }
+
+  const agentsTitle = document.createElement('h4');
+  agentsTitle.textContent = 'Agent Collaboration';
+
+  const agentsContainer = document.createElement('div');
+  agentsContainer.className = 'plan-card__agents';
+  for (const [agentName, agentOutput] of Object.entries(plan.agents)) {
+    const agentSection = document.createElement('section');
+    agentSection.className = 'plan-card__agent';
+
+    const agentHeading = document.createElement('h5');
+    agentHeading.textContent = formatAgentLabel(agentName);
+
+    const agentSummary = document.createElement('p');
+    if (agentOutput.summary) {
+      agentSummary.textContent = agentOutput.summary;
+    } else if (agentOutput.milestone) {
+      agentSummary.textContent = agentOutput.milestone;
+    } else if (Array.isArray(agentOutput.deliveryBacklog)) {
+      agentSummary.textContent = agentOutput.deliveryBacklog[0].milestone;
+    } else {
+      agentSummary.textContent = 'Agent insights ready for review.';
+    }
+
+    const detailsList = document.createElement('ul');
+    detailsList.className = 'plan-card__details';
+    for (const [key, value] of Object.entries(agentOutput)) {
+      const item = document.createElement('li');
+      item.innerHTML = `<strong>${formatAgentDetailKey(key)}:</strong> ${formatDetailValue(value)}`;
+      detailsList.appendChild(item);
+    }
+
+    agentSection.appendChild(agentHeading);
+    agentSection.appendChild(agentSummary);
+    agentSection.appendChild(detailsList);
+    agentsContainer.appendChild(agentSection);
+  }
+
+  article.appendChild(heading);
+  article.appendChild(differentiator);
+  article.appendChild(modulesTitle);
+  article.appendChild(modulesList);
+  article.appendChild(agentsTitle);
+  article.appendChild(agentsContainer);
+  container.appendChild(article);
+}
+
+function formatAgentLabel(agentName) {
+  return agentName
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (character) => character.toUpperCase())
+    .trim();
+}
+
+function formatAgentDetailKey(key) {
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (character) => character.toUpperCase())
+    .trim();
+}
+
+function formatDetailValue(value) {
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    return Object.entries(value)
+      .map(([entryKey, entryValue]) => `${formatAgentDetailKey(entryKey)}: ${formatDetailValue(entryValue)}`)
+      .join('; ');
+  }
+
+  return String(value);
+        main
 }

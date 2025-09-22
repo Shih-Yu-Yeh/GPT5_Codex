@@ -154,8 +154,15 @@ function prepareAttachments(attachments = []) {
     .map((item) => item.trim())
     .filter(Boolean);
 
-  const deduped = Array.from(new Set(cleaned.map((item) => item.toLowerCase())));
-  return deduped.map((item) => item.replace(/\s+/g, ' '));
+  const byLowerCased = new Map();
+  for (const item of cleaned) {
+    const key = item.toLowerCase();
+    if (!byLowerCased.has(key)) {
+      byLowerCased.set(key, item);
+    }
+  }
+
+  return Array.from(byLowerCased.values()).map((item) => item.replace(/\s+/g, ' '));
 }
 
 function craftAgentOutputs(playbook, attachments) {

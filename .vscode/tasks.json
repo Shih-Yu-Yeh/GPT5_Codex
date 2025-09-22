@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Containers: Logs: infra-backend-1",
+      "type": "shell",
+      "command": "docker",
+      "args": ["logs", "--tail", "1000", "-f", "infra-backend-1"],
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Containers: Logs: infra-frontend-1",
+      "type": "shell",
+      "command": "docker",
+      "args": ["logs", "--tail", "1000", "-f", "infra-frontend-1"],
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Containers: Logs: infra-postgres-1",
+      "type": "shell",
+      "command": "docker",
+      "args": ["logs", "--tail", "1000", "-f", "infra-postgres-1"],
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    }
+  ]
+}

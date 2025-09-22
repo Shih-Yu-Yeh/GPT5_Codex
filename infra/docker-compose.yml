@@ -3,9 +3,9 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: gpt5_codex
+      POSTGRES_USER: omnidevice
       POSTGRES_PASSWORD: development
-      POSTGRES_DB: gpt5_codex
+      POSTGRES_DB: omnidevice
     ports:
       - "5432:5432"
     volumes:
@@ -16,7 +16,7 @@ services:
       context: ../backend
       dockerfile: ../backend/Dockerfile
     environment:
-      DATABASE_URL: postgresql://gpt5_codex:development@postgres:5432/gpt5_codex
+      DATABASE_URL: postgresql://omnidevice:development@postgres:5432/omnidevice
     depends_on:
       - postgres
     ports:

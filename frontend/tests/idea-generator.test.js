@@ -1,30 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { craftIdeaFromSeed, listSignatureExperiences } from '../src/aiIdeas.js';
+import { craftPlanForDevice, listDevicePlaybooks } from '../src/aiIdeas.js';
 
-test('listSignatureExperiences returns immutable copies', () => {
-  const experiences = listSignatureExperiences();
-  assert.equal(experiences.length, 3);
-  experiences[0].title = 'mutated';
+test('listDevicePlaybooks returns immutable copies', () => {
+  const playbooks = listDevicePlaybooks();
+  assert.ok(playbooks.length >= 9);
+  playbooks[0].title = 'mutated';
 
-  const fresh = listSignatureExperiences();
+  const fresh = listDevicePlaybooks();
   assert.notEqual(fresh[0].title, 'mutated');
 });
 
-test('craftIdeaFromSeed enforces a non-empty string input', () => {
-  assert.throws(() => craftIdeaFromSeed(''), /Seed must be a non-empty string/);
-  assert.throws(() => craftIdeaFromSeed(), /Seed must be a non-empty string/);
+test('craftPlanForDevice enforces a non-empty string input', () => {
+  assert.throws(() => craftPlanForDevice(''), /Device must be a non-empty string/);
+  assert.throws(() => craftPlanForDevice(), /Device must be a non-empty string/);
 });
 
-test('craftIdeaFromSeed produces deterministic identifiers', () => {
-  const first = craftIdeaFromSeed('Galactic Tea Bar');
-  const second = craftIdeaFromSeed('galactic tea bar');
+test('craftPlanForDevice produces deterministic identifiers', () => {
+  const first = craftPlanForDevice('Retro Gameboy', ['Link cable']);
+  const second = craftPlanForDevice('retro gameboy', ['Link cable']);
   assert.equal(first.id, second.id);
-  assert.match(first.title, /Galactic Tea Bar/);
+  assert.equal(first.differentiator, second.differentiator);
 });
 
-test('craftIdeaFromSeed blends tone specific messaging', () => {
-  const idea = craftIdeaFromSeed('Quantum Fitness Studio');
-  assert.ok(idea.description.includes('quantum fitness studio'.replace(/\s+/g, ' ')) === false, 'description is humanised');
-  assert.ok(idea.subscriptionPrompt.startsWith('Subscribe to unlock'));
+test('craftPlanForDevice wires agent contributions', () => {
+  const plan = craftPlanForDevice('Mechanical Fan', ['Aroma diffuser']);
+  assert.ok(plan.agents.businessAnalyst.blueOceanOpportunity.includes('subscription'));
+  assert.ok(plan.agents.security.threatModel.watchpoints.some((item) => item.includes('Attachment')));
+  assert.ok(Array.isArray(plan.attachments));
 });

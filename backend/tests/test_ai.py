@@ -1,9 +1,17 @@
 """Unit tests for the hardware plan generator."""
+"""Unit tests for the hardware plan generator."""
 
+import pathlib
+import sys
 import pathlib
 import sys
 import unittest
 
+PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from backend.app.ai import HardwarePlanGenerator, generate_device_strategy
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -27,6 +35,12 @@ class HardwarePlanGeneratorTests(unittest.TestCase):
         self.assertIn("productManager", payload["agents"])
         self.assertGreater(len(payload["agents"]["productManager"]["deliveryBacklog"]), 0)
 
+    def test_generator_is_deterministic_for_same_input(self) -> None:
+        generator = HardwarePlanGenerator()
+        first = generator.generate("IoT Setup", attachments=["Thermal sensor"])
+        second = generator.generate("iot setup", attachments=["Thermal sensor"])
+        self.assertEqual(first.device_key, second.device_key)
+        self.assertEqual(first.differentiator, second.differentiator)
     def test_generator_is_deterministic_for_same_input(self) -> None:
         generator = HardwarePlanGenerator()
         first = generator.generate("IoT Setup", attachments=["Thermal sensor"])

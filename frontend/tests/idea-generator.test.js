@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { craftPlanForDevice, listDevicePlaybooks } from '../src/aiIdeas.js';
+import { craftPlanForDevice, listDevicePlaybooks } from '../src/aiIdeas.js';
 
 test('listDevicePlaybooks returns immutable copies', () => {
   const playbooks = listDevicePlaybooks();
@@ -8,9 +9,13 @@ test('listDevicePlaybooks returns immutable copies', () => {
   playbooks[0].title = 'mutated';
 
   const fresh = listDevicePlaybooks();
+  const fresh = listDevicePlaybooks();
   assert.notEqual(fresh[0].title, 'mutated');
 });
 
+test('craftPlanForDevice enforces a non-empty string input', () => {
+  assert.throws(() => craftPlanForDevice(''), /Device must be a non-empty string/);
+  assert.throws(() => craftPlanForDevice(), /Device must be a non-empty string/);
 test('craftPlanForDevice enforces a non-empty string input', () => {
   assert.throws(() => craftPlanForDevice(''), /Device must be a non-empty string/);
   assert.throws(() => craftPlanForDevice(), /Device must be a non-empty string/);
@@ -19,7 +24,11 @@ test('craftPlanForDevice enforces a non-empty string input', () => {
 test('craftPlanForDevice produces deterministic identifiers', () => {
   const first = craftPlanForDevice('Retro Gameboy', ['Link cable']);
   const second = craftPlanForDevice('retro gameboy', ['Link cable']);
+test('craftPlanForDevice produces deterministic identifiers', () => {
+  const first = craftPlanForDevice('Retro Gameboy', ['Link cable']);
+  const second = craftPlanForDevice('retro gameboy', ['Link cable']);
   assert.equal(first.id, second.id);
+  assert.equal(first.differentiator, second.differentiator);
   assert.equal(first.differentiator, second.differentiator);
 });
 

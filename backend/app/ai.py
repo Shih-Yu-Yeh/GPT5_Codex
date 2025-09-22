@@ -1,7 +1,9 @@
 """Hardware-centric AI orchestration helpers used by the backend service."""
+"""Hardware-centric AI orchestration helpers used by the backend service."""
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from dataclasses import dataclass, field
 from hashlib import sha256
 from typing import Dict, Iterable, List, Sequence
@@ -584,9 +586,73 @@ class QualityAssuranceAgent:
             "uiUxFocus": ui_ux["journeyStages"],
             "backendFocus": architecture["integrationLayers"],
             "escalation": "Report defects to the PM who will coordinate frontend and backend fixes.",
+            "testPlan": validation_gates,
+            "uiUxFocus": ui_ux["journeyStages"],
+            "backendFocus": architecture["integrationLayers"],
+            "escalation": "Report defects to the PM who will coordinate frontend and backend fixes.",
         }
 
 
+class ProductManagerAgent:
+    """Aligns agent output into an actionable delivery plan."""
+
+    def orchestrate(
+        self,
+        blueprint: Blueprint,
+        attachments: Sequence[str],
+        agent_outputs: Dict[str, Dict[str, object]],
+    ) -> Dict[str, object]:
+        backlog = [
+            {
+                "milestone": "Validate blue ocean thesis with stakeholder interviews",
+                "owner": "Business Analyst",
+            },
+            {
+                "milestone": "Prototype journey stages with UI/UX using RWD guidelines",
+                "owner": "Frontend",
+            },
+            {
+                "milestone": "Implement integration layers with backend and architect",
+                "owner": "Backend",
+            },
+            {
+                "milestone": "Run QA regression and security threat rehearsal",
+                "owner": "QA & Security",
+            },
+        ]
+        if attachments:
+            backlog.append(
+                {
+                    "milestone": "Expand backlog for attachment orchestration",
+                    "owner": "PM",
+                }
+            )
+
+        dependencies = [
+            "Architecture informs security hardening",
+            "UI/UX prototypes feed QA accessibility audits",
+        ]
+
+        return {
+            "deliveryBacklog": backlog,
+            "dependencies": dependencies,
+            "nextReview": "Schedule cross-agent sync once QA shares findings.",
+        }
+
+
+class HardwarePlanGenerator:
+    """Create deterministic hardware augmentation plans derived from device seeds."""
+
+    def __init__(self) -> None:
+        self._business_analyst = BusinessAnalystAgent()
+        self._product_manager = ProductManagerAgent()
+        self._architect = SoftwareArchitectAgent()
+        self._ui_ux = UIUXAgent()
+        self._security = SecurityEngineerAgent()
+        self._qa = QualityAssuranceAgent()
+
+    def _normalise(self, value: str) -> str:
+        return " ".join(value.strip().lower().split())
 class ProductManagerAgent:
     """Aligns agent output into an actionable delivery plan."""
 
@@ -741,5 +807,7 @@ def generate_device_strategy(
 ) -> Dict[str, object]:
     """Public helper that returns a JSON-serialisable plan."""
 
+    plan = HardwarePlanGenerator().generate(device=device, attachments=attachments)
+    return plan.as_payload()
     plan = HardwarePlanGenerator().generate(device=device, attachments=attachments)
     return plan.as_payload()

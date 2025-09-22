@@ -1,6 +1,12 @@
 import { listDevicePlaybooks, craftPlanForDevice } from './aiIdeas.js';
+import { listDevicePlaybooks, craftPlanForDevice } from './aiIdeas.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const playbookGrid = document.getElementById('playbook-grid');
+  const form = document.getElementById('plan-form');
+  const deviceInput = document.getElementById('device-input');
+  const attachmentsInput = document.getElementById('attachments-input');
+  const planOutput = document.getElementById('plan-output');
   const playbookGrid = document.getElementById('playbook-grid');
   const form = document.getElementById('plan-form');
   const deviceInput = document.getElementById('device-input');
@@ -10,10 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (playbookGrid) {
     const playbooks = listDevicePlaybooks();
     for (const playbook of playbooks) {
+  if (playbookGrid) {
+    const playbooks = listDevicePlaybooks();
+    for (const playbook of playbooks) {
       const card = document.createElement('article');
+      card.className = 'playbook-card';
       card.className = 'playbook-card';
 
       const title = document.createElement('h3');
+      title.textContent = playbook.title;
       title.textContent = playbook.title;
 
       const summary = document.createElement('p');
@@ -30,8 +41,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const blueOcean = document.createElement('p');
       blueOcean.className = 'playbook-card__blue-ocean';
       blueOcean.textContent = playbook.blueOcean;
+      const summary = document.createElement('p');
+      summary.textContent = playbook.summary;
+
+      const modules = document.createElement('ul');
+      modules.className = 'playbook-card__modules';
+      for (const module of playbook.aiModules) {
+        const item = document.createElement('li');
+        item.textContent = module;
+        modules.appendChild(item);
+      }
+
+      const blueOcean = document.createElement('p');
+      blueOcean.className = 'playbook-card__blue-ocean';
+      blueOcean.textContent = playbook.blueOcean;
 
       card.appendChild(title);
+      card.appendChild(summary);
+      card.appendChild(modules);
+      card.appendChild(blueOcean);
+      playbookGrid.appendChild(card);
       card.appendChild(summary);
       card.appendChild(modules);
       card.appendChild(blueOcean);
@@ -53,10 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!device) {
         window.alert('Please describe your hardware device.');
+  if (form && deviceInput && planOutput) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const device = deviceInput.value.trim();
+      const attachmentsRaw = attachmentsInput ? attachmentsInput.value : '';
+      const attachments = attachmentsRaw
+        ? attachmentsRaw
+            .split(',')
+            .map((value) => value.trim())
+            .filter(Boolean)
+        : [];
+
+      if (!device) {
+        window.alert('Please describe your hardware device.');
         return;
       }
 
       try {
+        const plan = craftPlanForDevice(device, attachments);
+        renderPlan(planOutput, plan);
         const plan = craftPlanForDevice(device, attachments);
         renderPlan(planOutput, plan);
       } catch (error) {

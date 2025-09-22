@@ -1,6 +1,8 @@
 # Frontend Shell
 
-The frontend provides a static marketing experience for the GPT5 Codex platform. It highlights the signature AI features and allows visitors to generate teaser concepts using a deterministic client-side module.
+The frontend provides a responsive planning experience for the OmniDevice AI Fusion platform. It highlights signature hardware
+playbooks and lets visitors generate deterministic integration plans using a deterministic client-side module that mirrors the
+backend agents.
 
 ## Available Scripts
 
@@ -10,4 +12,5 @@ npm run lint  # syntax-check JavaScript sources using the Node.js parser
 npm test      # execute automated tests with the built-in node:test runner
 ```
 
-The project intentionally avoids third-party dependencies so it can run in restricted environments. When the platform is ready to evolve, replace the static setup with your framework of choice (Next.js, Remix, Astro, etc.) and hook it into the backend API.
+The project intentionally avoids third-party dependencies so it can run in restricted environments. When the platform evolves,
+replace the static setup with your framework of choice (Next.js, Remix, Astro, etc.) and hook it into the backend API.

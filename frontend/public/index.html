@@ -3,30 +3,55 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GPT5 Codex – AI Subscription Playground</title>
+    <title>AnyDevice AI Enablement Studio</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="hero">
       <div class="hero__content">
-        <h1>Invent the future with GPT5 Codex</h1>
+        <h1>Attach intelligence to every device you own</h1>
         <p>
-          Explore immersive AI story experiences, collaborative creation rooms, and personalised challenge tracks that inspire paid
-          subscribers to stay curious.
+          AnyDevice AI Enablement Studio helps builders extend ESP32 deployments, household appliances, retro consoles, and
+          smart cameras with production-ready intelligence.
         </p>
-        <button id="cta-button" class="hero__cta">Start Your Creative Trial</button>
+        <a class="hero__cta" href="#planner">Design Your Device Strategy</a>
       </div>
     </header>
 
     <main>
-      <section class="ideas">
-        <h2>Signature AI Experiences</h2>
-        <div id="idea-list" class="ideas__list" aria-live="polite"></div>
+      <section class="playbooks" aria-labelledby="playbooks-title">
+        <div class="playbooks__header">
+          <h2 id="playbooks-title">Signature Hardware Playbooks</h2>
+          <p>Every playbook blends market opportunity with architecture, security, QA, and experience milestones.</p>
+        </div>
+        <div id="playbook-grid" class="playbooks__grid" aria-live="polite"></div>
+      </section>
+
+      <section class="planner" id="planner" aria-labelledby="planner-title">
+        <div class="planner__header">
+          <h2 id="planner-title">Generate a Tailored Integration Plan</h2>
+          <p>Describe your hardware and optional attachments. The studio outlines an actionable AI roadmap.</p>
+        </div>
+        <form id="plan-form" class="planner__form">
+          <label for="device-input">Hardware device or setup</label>
+          <input id="device-input" name="device" type="text" required placeholder="e.g. Traditional TV" />
+
+          <label for="attachments-input">Attachments (comma separated)</label>
+          <input
+            id="attachments-input"
+            name="attachments"
+            type="text"
+            placeholder="e.g. HDMI capture card, motion sensor"
+          />
+
+          <button type="submit" class="planner__submit">Generate plan</button>
+        </form>
+        <div id="plan-output" class="planner__output" aria-live="polite"></div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Crafted by the GPT5 Codex specialist team – business, product, engineering, security, and operations in harmony.</p>
+      <p>Powered by a specialist crew &mdash; business analysis, product strategy, architecture, security, QA, and UI/UX working in concert.</p>
     </footer>
 
     <script type="module" src="/src/main.js"></script>

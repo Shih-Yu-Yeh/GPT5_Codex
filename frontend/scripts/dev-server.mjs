@@ -30,7 +30,10 @@ function resolveFile(urlPath) {
     return directPublic;
   }
 
-  const directSrc = join(srcDir, urlPath.replace(/^\//, ''));
+  const srcRelativePath = urlPath
+    .replace(/^\/?src\//, '')
+    .replace(/^\//, '');
+  const directSrc = join(srcDir, srcRelativePath);
   if (existsSync(directSrc) && statSync(directSrc).isFile()) {
     return directSrc;
   }

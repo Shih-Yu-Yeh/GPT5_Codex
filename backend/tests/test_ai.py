@@ -30,6 +30,11 @@ class HardwarePlanGeneratorTests(unittest.TestCase):
         self.assertEqual(first.device_key, second.device_key)
         self.assertEqual(first.differentiator, second.differentiator)
 
+    def test_generator_deduplicates_case_variant_attachments(self) -> None:
+        generator = HardwarePlanGenerator()
+        plan = generator.generate("iot setup", attachments=["Sensor", "sensor"])
+        self.assertEqual(plan.attachments, ["Sensor"])
+
     def test_generator_resolves_aliases(self) -> None:
         generator = HardwarePlanGenerator()
         plan = generator.generate("電鍋")

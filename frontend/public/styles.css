@@ -21,10 +21,13 @@ body {
 .hero__content {
   max-width: 720px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .hero__cta {
-  margin-top: 1.5rem;
+  align-self: center;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   border: none;
@@ -32,6 +35,7 @@ body {
   color: #0f172a;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .hero__cta:hover,
@@ -44,21 +48,34 @@ main {
   flex: 1;
   padding: 3rem 1.5rem;
   background: #020617;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
-.ideas {
-  max-width: 960px;
+.playbooks,
+.planner {
+  max-width: 1100px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.ideas__list {
+.playbooks__header,
+.planner__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.playbooks__grid {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  margin-top: 2rem;
 }
 
-.idea-card {
+.playbook-card {
   background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 16px;
@@ -68,14 +85,81 @@ main {
   gap: 0.75rem;
 }
 
-.idea-card h3 {
-  margin: 0;
-  font-size: 1.25rem;
+.playbook-card__modules {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #cbd5f5;
 }
 
-.idea-card p {
-  margin: 0;
-  line-height: 1.6;
+.playbook-card__blue-ocean {
+  color: #f472b6;
+  font-weight: 500;
+}
+
+.planner__form {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.planner__form label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.planner__form input {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+}
+
+.planner__submit {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  border: none;
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  color: #f8fafc;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.planner__submit:hover,
+.planner__submit:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+}
+
+.planner__output {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.plan-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 18px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.plan-card__modules,
+.plan-card__attachments,
+.plan-card__list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #cbd5f5;
+}
+
+.plan-card__roadmap {
+  list-style: decimal;
+  padding-left: 1.25rem;
   color: #cbd5f5;
 }
 
@@ -85,4 +169,23 @@ main {
   font-size: 0.875rem;
   background: #0b1120;
   color: #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  main {
+    padding: 2.5rem 1rem;
+    gap: 2.5rem;
+  }
+
+  .playbooks__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner__form {
+    grid-template-columns: 1fr;
+  }
 }

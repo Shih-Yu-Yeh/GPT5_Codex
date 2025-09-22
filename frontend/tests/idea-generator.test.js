@@ -1,30 +1,33 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { craftIdeaFromSeed, listSignatureExperiences } from '../src/aiIdeas.js';
+import { craftPlanForDevice, listDevicePlaybooks } from '../src/aiIdeas.js';
 
-test('listSignatureExperiences returns immutable copies', () => {
-  const experiences = listSignatureExperiences();
-  assert.equal(experiences.length, 3);
-  experiences[0].title = 'mutated';
+test('listDevicePlaybooks returns immutable copies', () => {
+  const playbooks = listDevicePlaybooks();
+  assert.ok(playbooks.length >= 11);
+  playbooks[0].title = 'mutated';
 
-  const fresh = listSignatureExperiences();
+  const fresh = listDevicePlaybooks();
   assert.notEqual(fresh[0].title, 'mutated');
 });
 
-test('craftIdeaFromSeed enforces a non-empty string input', () => {
-  assert.throws(() => craftIdeaFromSeed(''), /Seed must be a non-empty string/);
-  assert.throws(() => craftIdeaFromSeed(), /Seed must be a non-empty string/);
+test('craftPlanForDevice enforces a non-empty string input', () => {
+  assert.throws(() => craftPlanForDevice(''), /Device must be a non-empty string/);
+  assert.throws(() => craftPlanForDevice(), /Device must be a non-empty string/);
 });
 
-test('craftIdeaFromSeed produces deterministic identifiers', () => {
-  const first = craftIdeaFromSeed('Galactic Tea Bar');
-  const second = craftIdeaFromSeed('galactic tea bar');
+test('craftPlanForDevice produces deterministic identifiers', () => {
+  const first = craftPlanForDevice('Retro Gameboy', ['Link cable']);
+  const second = craftPlanForDevice('retro gameboy', ['Link cable']);
   assert.equal(first.id, second.id);
-  assert.match(first.title, /Galactic Tea Bar/);
+  assert.equal(first.differentiator, second.differentiator);
 });
 
-test('craftIdeaFromSeed blends tone specific messaging', () => {
-  const idea = craftIdeaFromSeed('Quantum Fitness Studio');
-  assert.ok(idea.description.includes('quantum fitness studio'.replace(/\s+/g, ' ')) === false, 'description is humanised');
-  assert.ok(idea.subscriptionPrompt.startsWith('Subscribe to unlock'));
+test('craftPlanForDevice surfaces user-facing roadmap sections', () => {
+  const plan = craftPlanForDevice('ESP32', ['Thermal camera']);
+  assert.equal(plan.id, 'esp32-edge-node');
+  assert.ok(plan.integrationLayers.some((layer) => layer.includes('Model update')));
+  assert.ok(plan.securityWatchpoints.some((item) => item.toLowerCase().includes('secure')));
+  assert.ok(plan.implementationRoadmap.length > 0);
+  assert.ok(Array.isArray(plan.attachments));
 });

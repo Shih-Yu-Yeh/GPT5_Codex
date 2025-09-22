@@ -1,1 +1,1 @@
-"""Backend application package for the GPT5 Codex platform."""
+"""Backend application package for the OmniDevice AI Fusion platform."""

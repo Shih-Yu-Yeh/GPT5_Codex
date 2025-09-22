@@ -29,3 +29,14 @@ test('craftPlanForDevice wires agent contributions', () => {
   assert.ok(plan.agents.security.threatModel.watchpoints.some((item) => item.includes('Attachment')));
   assert.ok(Array.isArray(plan.attachments));
 });
+
+test('craftPlanForDevice retains attachment casing while deduping', () => {
+  const plan = craftPlanForDevice('Mechanical Fan', [
+    'Quick Start Guide',
+    'quick start guide',
+    'QUICK START GUIDE',
+    'Maintenance LOG'
+  ]);
+
+  assert.deepEqual(plan.attachments, ['Quick Start Guide', 'Maintenance LOG']);
+});

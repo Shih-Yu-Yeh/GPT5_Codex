@@ -78,6 +78,72 @@ function renderPlan(container, plan) {
   const differentiator = document.createElement('p');
   differentiator.textContent = plan.differentiator;
 
+ codex/implement-ai-functionality-for-various-devices-wq5il3
+  const modulesSection = createListSection('Core AI Modules', plan.aiModules, 'plan-card__modules');
+
+  const attachmentsSection =
+    plan.attachments.length > 0
+      ? createListSection('Attachment Enhancements', plan.attachments, 'plan-card__attachments')
+      : null;
+
+  const integrationSection = createListSection(
+    'Integration Layers',
+    plan.integrationLayers,
+    'plan-card__list'
+  );
+  const journeySection = createListSection(
+    'Experience Flow',
+    plan.experienceFlow,
+    'plan-card__list'
+  );
+  const securitySection = createListSection(
+    'Security Watchpoints',
+    plan.securityWatchpoints,
+    'plan-card__list'
+  );
+  const qaSection = createListSection('QA Focus', plan.qaFocus, 'plan-card__list');
+  const roadmapSection = createListSection(
+    'Implementation Roadmap',
+    plan.implementationRoadmap,
+    'plan-card__roadmap',
+    'ol'
+  );
+
+  article.appendChild(heading);
+  article.appendChild(differentiator);
+  article.appendChild(modulesSection.title);
+  article.appendChild(modulesSection.list);
+  if (attachmentsSection) {
+    article.appendChild(attachmentsSection.title);
+    article.appendChild(attachmentsSection.list);
+  }
+  article.appendChild(integrationSection.title);
+  article.appendChild(integrationSection.list);
+  article.appendChild(journeySection.title);
+  article.appendChild(journeySection.list);
+  article.appendChild(securitySection.title);
+  article.appendChild(securitySection.list);
+  article.appendChild(qaSection.title);
+  article.appendChild(qaSection.list);
+  article.appendChild(roadmapSection.title);
+  article.appendChild(roadmapSection.list);
+  container.appendChild(article);
+}
+
+function createListSection(titleText, items, listClassName, listTag = 'ul') {
+  const title = document.createElement('h4');
+  title.textContent = titleText;
+
+  const list = document.createElement(listTag);
+  list.className = listClassName;
+  for (const itemText of items) {
+    const item = document.createElement('li');
+    item.textContent = itemText;
+    list.appendChild(item);
+  }
+
+  return { title, list };
+
   const modulesTitle = document.createElement('h4');
   modulesTitle.textContent = 'Core AI Modules';
 
@@ -175,4 +241,5 @@ function formatDetailValue(value) {
   }
 
   return String(value);
+        main
 }
